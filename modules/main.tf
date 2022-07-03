@@ -1,24 +1,24 @@
 module "resource_group" {
-  source   = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/resource_group"
+  source   = "./modules/resource_group"
   resource_group      = "3385-assignment1-RG"
   location = "australiacentral"
 }
 
 module "network" {
-  source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/network"
+  source         = "./modules/network"
   resource_group = module.resource_group.resource_group.name
   location       = module.resource_group.resource_group.location
 }
 
 module "common" {
-  source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/common"
+  source         = "./modules/common"
   resource_group = module.resource_group.resource_group.name
   location       = module.resource_group.resource_group.location
   depends_on = [module.resource_group]
 }
 
 module "vmlinux" {
-  source              = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/vmlinux"
+  source              = "./modules/vmlinux"
   resource_group      = module.resource_group.resource_group.name
   location            = module.resource_group.resource_group.location
   nb_count            = 2
@@ -29,7 +29,7 @@ module "vmlinux" {
 }
 
 module "vmwindows" {
-  source              = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/vmwindows"
+  source              = "./modules/vmwindows"
   resource_group      = module.resource_group.resource_group.name
   location            = module.resource_group.resource_group.location
   depends_on          = [module.network]
@@ -39,7 +39,7 @@ module "vmwindows" {
 }
 
 module "datadisk" {
-  source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/datadisk"
+  source         = "./modules/datadisk"
   resource_group = module.resource_group.resource_group.name
   location       = module.resource_group.resource_group.location
   depends_on = [
@@ -56,7 +56,7 @@ module "datadisk" {
 }
 
 module "loadbalancer" {
-  source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/loadbalancer"
+  source         = "./modules/loadbalancer"
   resource_group = module.resource_group.resource_group.name
   location       = module.resource_group.resource_group.location
   linux_name = {
@@ -73,7 +73,7 @@ module "loadbalancer" {
 }
 
 module "database" {
-  source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/database"
+  source         = "./modules/database"
   resource_group = module.resource_group.resource_group.name
   location       = module.resource_group.resource_group.location
   depends_on     = [module.network]
