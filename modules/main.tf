@@ -25,7 +25,6 @@ module "vmlinux" {
   depends_on          = [module.network]
   linux_name          = "linuxvm-3385"
   subnet_id           = module.network.subnet.id
-  storage_account_uri = module.common.storage_account.primary_blob_endpoint
 }
 
 module "vmwindows" {
@@ -35,7 +34,6 @@ module "vmwindows" {
   depends_on          = [module.network]
   windows_name        = "windowvm-3385"
   subnet_id           = module.network.subnet.id
-  storage_account_uri = module.common.storage_account.primary_blob_endpoint
 }
 
 module "datadisk" {
