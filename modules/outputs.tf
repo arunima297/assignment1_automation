@@ -1,5 +1,5 @@
 output "resource_group"{
-    value = module.resource_group.resource_group.name
+    value = module.rgroup.resource_group.name
 }
 output "virtual_network" {
   value = module.network.vnet.name
@@ -30,7 +30,12 @@ output "Linux_private_ip_address" {
 output "Linux_dns" {
   value = module.vmlinux.Linux_dns
 }
-
+output "Loadbalancer_name" {
+  value = module.loadbalancer.Loadbalancer.name
+}
+output "Database_instance" {
+  value = module.database.Database_instance.name
+}
 output "Windows_hostname" {
   value = module.vmwindows.Windows_hostname
 }
@@ -42,12 +47,4 @@ output "Windows_private_ip_address" {
 }
 output "Windows_dns" {
   value = module.vmwindows.Windows_dns
-}
-
-output "Loadbalancer_name" {
-  value = module.loadbalancer.Loadbalancer.name
-}
-
-output "Database_instance" {
-  value = module.database.Database_instance.name
 }
