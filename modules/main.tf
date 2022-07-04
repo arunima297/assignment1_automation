@@ -1,4 +1,4 @@
-module "resource_group" {
+module "rgroup" {
   source   = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/resource_group"
   resource_group      = "3385-assignment1-RG"
   location = "australiacentral"
@@ -6,21 +6,21 @@ module "resource_group" {
 
 module "network" {
   source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/network"
-  resource_group = module.resource_group.resource_group.name
-  location       = module.resource_group.resource_group.location
+  resource_group = module.rgroup.resource_group.name
+  location       = module.rgroup.resource_group.location
 }
 
 module "common" {
   source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/common"
-  resource_group = module.resource_group.resource_group.name
-  location       = module.resource_group.resource_group.location
-  depends_on = [module.resource_group]
+  resource_group = module.rgroup.resource_group.name
+  location       = module.rgroup.resource_group.location
+  depends_on = [module.rgroup]
 }
 
 module "vmlinux" {
   source              = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/vmlinux"
-  resource_group      = module.resource_group.resource_group.name
-  location            = module.resource_group.resource_group.location
+  resource_group      = module.rgroup.resource_group.name
+  location            = module.rgroup.resource_group.location
   nb_count            = 2
   depends_on          = [module.network]
   linux_name          = "linuxvm-3385"
@@ -30,8 +30,8 @@ module "vmlinux" {
 
 module "vmwindows" {
   source              = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/vmwindows"
-  resource_group      = module.resource_group.resource_group.name
-  location            = module.resource_group.resource_group.location
+  resource_group      = module.rgroup.resource_group.name
+  location            = module.rgroup.resource_group.location
   depends_on          = [module.network]
   windows_name        = "windowvm-3385"
   subnet_id           = module.network.subnet.id
@@ -40,8 +40,8 @@ module "vmwindows" {
 
 module "datadisk" {
   source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/datadisk"
-  resource_group = module.resource_group.resource_group.name
-  location       = module.resource_group.resource_group.location
+  resource_group = module.rgroup.resource_group.name
+  location       = module.rgroup.resource_group.location
   depends_on = [
     module.vmlinux,
     module.vmwindows
@@ -57,8 +57,8 @@ module "datadisk" {
 
 module "loadbalancer" {
   source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/loadbalancer"
-  resource_group = module.resource_group.resource_group.name
-  location       = module.resource_group.resource_group.location
+  resource_group = module.rgroup.resource_group.name
+  location       = module.rgroup.resource_group.location
   linux_name = {
     linuxvm-3385-1 = 0
     linuxvm-3385-2 = 1
@@ -74,7 +74,7 @@ module "loadbalancer" {
 
 module "database" {
   source         = "C:/Users/unnim/Downloads/Humber/SEM02/AUTOMATION/terraform/Assignment_1/modules/database"
-  resource_group = module.resource_group.resource_group.name
-  location       = module.resource_group.resource_group.location
+  resource_group = module.rgroup.resource_group.name
+  location       = module.rgroup.resource_group.location
   depends_on     = [module.network]
 }
