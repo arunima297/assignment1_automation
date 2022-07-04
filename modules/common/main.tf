@@ -1,18 +1,18 @@
 resource "azurerm_log_analytics_workspace" "log_analytics_workspace_3385" {
+  tags = local.common_tags
   name = "loganalyticsworkspace-3385"
   location = var.location
   resource_group_name = var.resource_group
   sku = "PerGB2018"
   retention_in_days = 30
-  tags = local.common_tags
 }
 resource "azurerm_recovery_services_vault" "recovery_services_vault_3385" {
+  tags = local.common_tags
   name                = "vault-3385"
   location            = var.location
   resource_group_name = var.resource_group
   sku                 = "Standard"
   soft_delete_enabled = true
-  tags = local.common_tags
 }
 resource "azurerm_storage_blob" "storage_blob_3385" {
   name                   = "storageblob_3385"
