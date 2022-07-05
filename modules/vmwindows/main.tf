@@ -67,15 +67,15 @@ resource "azurerm_availability_set" "windows-avs_3385" {
   name                = var.windows_avs
   location            = var.location
   resource_group_name = var.resource_group
-  platform_update_domain_count = 10
+  platform_update_domain_count = 5
   platform_fault_domain_count = 2
 }
 
 resource "azurerm_virtual_machine_extension" "windows-vmexe_3385" {
   name                = "${var.windows_name}-vmexe"
   virtual_machine_id   = azurerm_windows_virtual_machine.windows-vm_3385.id
-  publisher            = var.windows_vmexe["publisher"]
-  type                 = var.windows_vmexe["type"]
-  type_handler_version = var.windows_vmexe["type_handler_version"]
+  publisher  = "Microsoft.Azure.Security.AntimalwareSignature"
+  type  = "AntimalwareConfiguration"
+  type_handler_version ="2.58"
   tags                = local.common_tags
 }
