@@ -6,8 +6,8 @@ resource "null_resource" "linux_provisioner_3385" {
     inline = ["/usr/bin/hostname"]
     connection {
       type     = "ssh"
-      user     = var.admin_username
-      password = var.admin_password
+      user     = "n01523385"
+      password = "n01523385@arunima"
       host     = element(azurerm_public_ip.linux-pip_3385[*].fqdn, count.index + 1)
     }
   }
