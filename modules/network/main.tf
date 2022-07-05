@@ -12,4 +12,5 @@ resource "azurerm_subnet" "subnet_3385" {
   resource_group_name  = var.resource_group
   virtual_network_name = azurerm_virtual_network.vnet_3385.name
   address_prefixes     = var.subnet_space
+  tags = local.common_tags
 }
