@@ -60,16 +60,6 @@ variable windows_os {
 variable "windows_avs" {
     default = "windows_avs"
 }
-
-variable "windows_avs_values" {
-    type = map(string)
-    default = {
-        update_domain = 5
-        fault_domain = 2
-    }
-}
-
-
 variable "storage_account_uri" {
     default = ""
 }
