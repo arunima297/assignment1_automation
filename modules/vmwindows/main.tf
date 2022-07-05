@@ -48,7 +48,7 @@ resource "azurerm_windows_virtual_machine" "windows-vm_3385" {
     publisher = "MicrosoftWindowsServer"
         offer = "WindowsServer"
         sku = "2016-Datacenter"
-    version   = ""
+        version = "latest"
   }
 
   winrm_listener {
