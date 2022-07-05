@@ -30,8 +30,7 @@ resource "azurerm_linux_virtual_machine" "linux-vm_3385" {
   name                = "${var.linux_name}-vm-${format("%1d", count.index + 1)}"
   resource_group_name = var.resource_group
   location            = var.location
-  size                = var.linux_size
-  admin_username      = var.admin_username
+  size                = "Standard_B1ms"
   computer_name       = "${var.linux_name}-cn-${format("%1d", count.index + 1)}"
   tags                = local.common_tags
 
@@ -39,22 +38,22 @@ resource "azurerm_linux_virtual_machine" "linux-vm_3385" {
   network_interface_ids = [
     element(azurerm_network_interface.linux-nic_3385[*].id, count.index + 1)
   ]
-
-  admin_password                  = var.admin_password
+  admin_username      = "n01523385"
+  admin_password      = "n01523385@arunima"
   disable_password_authentication = false
 
   os_disk {
     name                 = "${var.linux_name}-os-disk-${format("%1d", count.index + 1)}"
-    caching              = var.os_disk["caching"]
-    storage_account_type = var.os_disk["storage_account_type"]
-    disk_size_gb         = var.os_disk["disk_size"]
+    storage_account_type = "Premium_LRS"
+    disk_size            = 32
+    caching              = "ReadWrite"
   }
 
   source_image_reference {
-    publisher = var.centos_linux_os["publisher"]
-    offer     = var.centos_linux_os["offer"]
-    sku       = var.centos_linux_os["sku"]
-    version   = var.centos_linux_os["version"]
+    publisher = "OpenLogic"
+    offer     = "CentOS"
+    sku       = "8_2"
+    version   = "latest"
   }
 
   boot_diagnostics {
@@ -65,22 +64,20 @@ resource "azurerm_linux_virtual_machine" "linux-vm_3385" {
 }
 
 resource "azurerm_availability_set" "linux-avs_3385" {
-  name                         = var.linux_avs
+  name                         = "linux-avs-3385"
   location                     = var.location
   resource_group_name          = var.resource_group
-  platform_update_domain_count = var.linux_avs_value["update_domain"]
-  platform_fault_domain_count  = var.linux_avs_value["fault_domain"]
+  platform_update_domain_count = 10
+  platform_fault_domain_count  = 2
 }
 
 resource "azurerm_virtual_machine_extension" "linux-vme_3385" {
   count               = var.nb_count
   name                = "${var.linux_name}-vme-${format("%1d", count.index + 1)}"
   virtual_machine_id   = azurerm_linux_virtual_machine.linux-vm_3385[count.index].id
-  publisher            = var.vme["publisher"]
-  type                 = var.vme["type"]
-  type_handler_version = var.vme["type_handler_version"]
-
+  publisher  = "Microsoft.Azure.NetworkWatcher"
+  type  = "NetworkWatcherAgentLinux"
+  type_handler_version ="1.4"
   depends_on = [null_resource.linux_provisioner_3385]
-
   tags                = local.common_tags
 }
