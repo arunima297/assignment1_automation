@@ -45,10 +45,10 @@ resource "azurerm_windows_virtual_machine" "windows-vm_3385" {
   }
 
   source_image_reference {
-    publisher = var.windows_os["publisher"]
-    offer     = var.windows_os["offer"]
-    sku       = var.windows_os["sku"]
-    version   = var.windows_os["version"]
+    publisher = "MicrosoftWindowsServer"
+        offer = "WindowsServer"
+        sku = "2016-Datacenter"
+    version   = ""
   }
 
   winrm_listener {
