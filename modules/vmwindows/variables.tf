@@ -46,17 +46,6 @@ variable windows_os_disk {
     }
 }
 
-
-variable windows_os {
-    type = map(string)
-    default = {
-        publisher = "MicrosoftWindowsServer"
-        offer = "WindowsServer"
-        sku = "2016-Datacenter"
-        version = "latest"
-    }
-}
-
 variable "windows_avs" {
     default = "windows_avs"
 }
